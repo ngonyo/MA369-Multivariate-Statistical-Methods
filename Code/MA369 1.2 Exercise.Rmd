@@ -1,0 +1,78 @@
+---
+title: "369 1.2"
+author: "NGonyo"
+date: "9/6/2021"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#set the working directory
+setwd("~/Documents/MA369/Datasets")
+dir()
+exerciseData=read.table("Table1-2.DAT", sep=" ",header=F)
+exerciseData
+
+#Display how many rows and columns are in the dataset, ie the "dimensions"
+dim(exerciseData)
+
+#Check missing values
+is.na(exerciseData)
+#We can see the 3rd, 5th, and 7th rows are the only ones containing data, rest are spaces
+
+#Lets see how R read the data in the dataset, ie we need to check the "structure" of the dataset
+str(exerciseData)
+
+Density=exerciseData[1:40, 3]
+Machinedirection=exerciseData[1:40, 5]
+Crossdirection=exerciseData[1:40, 7]
+
+#Check to see each variable was assigned correctly 
+Density
+Machinedirection
+Crossdirection
+
+#Sort data by Density variable
+exerciseData[order(Density),]
+
+#Lets get a better idea of the numerical properties of each variable
+summary(Density)
+mean(Density)
+sd(Density)
+
+summary(Machinedirection)
+mean(Machinedirection)
+sd(Machinedirection)
+
+summary(Crossdirection)
+mean(Crossdirection)
+sd(Crossdirection)
+
+#Create density plot for each variable
+plot(density(Density), col="green", main="Density Boxplot")
+plot(density(Machinedirection), col="blue", main="Machine Direction Boxplot")
+plot(density(Crossdirection), col="purple", main="Cross Direction Boxplot")
+
+
+boxplot(Density, horizontal = T, col="green", main="Density Boxplot")
+boxplot(Machinedirection, horizontal = T, col="blue", main="Machine Direction Boxplot")
+boxplot(Crossdirection, horizontal = T, col="purple", main="Cross Direction Boxplot")
+
+#We can see there is an outlier present in the Density variable, shown as the dot on the right side of the boxplot.
+
+plot(Density, Machinedirection, pch=16, col="green", xlab="Density in grams/cubic cm", ylab="Machine Direction in pounds", main="Density vs Machine Direction")
+
+plot(Density, Crossdirection, pch=16, col="blue", xlab="Density in grams/cubic cm", ylab="Cross Direction in pounds", main="Density vs Crossdirection")
+
+plot(Machinedirection, Crossdirection, pch=16, col="purple", xlab="Machine Direction in pounds", ylab="Cross Direction in pounds", main="Machine Direction vs Cross Direction")
+
+#In these first 2 plots we can clearly see the outlier on the right side of the plots. Ignoring this outlier, it seems that each variable is positively correlated to each other, ie as one variable increases as do the other two. This relationship is most clear when graphing density vs crossdirection, as well as density vs machinedirection
+
+```
+

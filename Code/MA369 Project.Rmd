@@ -1,0 +1,60 @@
+---
+title: "369 Project"
+author: "NGonyo"
+date: "12/13/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#set the working directory
+setwd("~/Documents/MA369/Datasets")
+dir()
+SkullData = read.table("EgyptianSkull.dat", sep="",header=F)
+SkullData
+
+#V1: Maximum breadth of skull (mm)
+#V2: Basibregmatic height of skull (mm)
+#V3: Basialveolar length of skull (mm)
+#V4: Nasal height ofskull (mm)
+#V5: time periods: period 1 is 4000 B.C., period 2 is 3300 B.C., and period 3 is 1850 B.C
+
+#Problem Statement 1: [25 points] Perform multivariate normality test of the quantitative variables based on all data using Henze-Zirkler's method at 1% level of signicance. Also, report the Chi-Square Q-Q Plot to show the multivariate outliers. Note: Be mindful in specifying different arguments in mvnfunction.
+
+require(MVN)
+## Simple coding with default arguments Default is Henze-Zirkler's method
+mvn(SkullData)
+
+
+# With multiple arguments
+mvn(SkullData,subset=NULL,mvnTest= "hz",
+    covariance=TRUE,tol=1e-25,alpha=0.01,scale=FALSE,desc=TRUE,
+    transform="none", R=1000,
+    univariateTest= "AD",
+    univariatePlot="none", multivariatePlot="none",
+    multivariateOutlierMethod="none",bc=FALSE,
+    bcType="rounded", showOutliers=FALSE,showNewData=FALSE)
+
+#qq plots
+qqplotskulls = mvn(data = SkullData[,1:4], univariatePlot = "qqplot")
+
+#Problem Statement 2: [25 points] Construct a one-way MANOVA of the Egyptian skull data using Pillai's method. Use α = .05. If MANOVA is found to be signicant, determine which mean components differ among the populations represented by the three time periods at 5% level of signicance considering the homogeneity of covariance matrices.
+
+#One-Way MANOVA
+X <- as.matrix(SkullData[, c("V1","V2","V3","V4")])
+
+dim(X) # n = 90, p = 4
+TimePeriod <- factor(SkullData$V5) # g = 3 
+
+require(stats)
+fit <- manova(X ~ TimePeriod)
+
+summary(fit) # Default Statistic is Pillai
+
+## One-Way ANOVA from MANOVA 
+summary.aov(fit) # univariate ANOVA tables
+
+```

@@ -1,0 +1,94 @@
+---
+title: "369 Hw1"
+author: "NGonyo"
+date: "9/14/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#~~~~~~~~~~~Question1.3~~~~~~~~~~~
+#Create vectors for each variable
+x1 = c(9,2,6,5,8)
+x2 = c(12,8,6,4,10)
+x3 = c(3,4,0,2,1)
+
+mean(x1)
+mean(x2)
+mean(x3)
+#xbar=[6,8,2]
+
+
+
+#To find correlation of each variable to one another manually:
+cor(x1, x2)
+cor(x1, x3)
+cor(x2, x3)
+
+#Alternatively, we can create a matrix from each variable vector
+M = cbind(x1,x2,x3)
+colMeans(M)
+# Matrix Sn:
+var(M)
+
+# Matrix R:
+cor(M)
+
+       
+
+
+
+
+
+```
+
+```{r}
+
+#~~~~~~~~~~~Question 1.4~~~~~~~~~~~
+#set the working directory
+setwd("~/Documents/MA369/Datasets")
+dir()
+companyData=read.table("369 HW1 Q1.4.txt", sep="\t",header=T)
+companyData
+#Display how many rows and columns are in the dataset, ie the "dimensions"
+dim(companyData)
+#Check missing values
+is.na(companyData)
+#Lets see how R read the data in the dataset, ie we need to check the "structure" of the dataset
+str(companyData)
+#Assign variables
+Sales=companyData[1:10, 1]
+Profits=companyData[1:10, 2]
+Assets=companyData[1:10, 3]
+
+
+#1.4a
+dotchart(Sales, pch = 16, col="blue", main = "Sales marginal dot plot")
+dotchart(Profits, pch = 16, col="green", main = "Profits marginal dot plot")
+plot(Sales, Profits, pch=16, col="green", xlab="Sales in billions", ylab="Profits in billions", main="Sales vs Profits")
+#Based on the appearance of the marginal dot plot for both variables, the data is reltaively spread out. This is especially clear if looking at the variation over the values on the x axis. The scatter diagram shows a loose positive relationship between the variables, which makese sense as we are graphing profits and sales.
+
+###1.4b
+#x1:
+mean(Sales)
+#x2: 
+mean(Profits)
+
+Sn = var(companyData)
+R = cor(companyData)
+Sn
+R
+#S11, S22, S12:
+Sn[1,1]
+Sn[2,2]
+Sn[1,2]
+
+#R12, interpret R12:
+R[1,2]
+#A correlation coefficient between x1 and x2
+
+
+```
